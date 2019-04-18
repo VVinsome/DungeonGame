@@ -1,6 +1,6 @@
 function Dungeon(){
     this.roomMap = new Map();
-    this.addVRoom()= function(roomNumber){
+    this.addVRoom() = function(roomNumber){
         var newRoom = new Room();
         this.roomMap.set(roomNumber, newRoom);
     }
