@@ -21,7 +21,7 @@ function Dungeon(){
     }
 }
 function Room(){
-    this.people= new Map();
+    this.people = new Map();
     this.message = [];
     this.outgoingRoom = [null,null,null,null,null,null];
     this.addOutgoingRoom = function(newRoom, direction){
