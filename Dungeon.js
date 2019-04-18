@@ -30,14 +30,15 @@ function Room(){
     this.addPeople = function(person){
         this.people.set(person.getName(),person);
     }
+    this.removePeople = function(person){
+        this.people.delete(person.getName());
+    }
+    
 }
-function People(){
+function People(username){
     this.inbox = [];
-    this.name = "anonymous";
+    this.name = username;
     this.getName = function(){
         return this.name;
     }
-    this.setName = function(user){
-        this.name=user;
-    } 
 }
