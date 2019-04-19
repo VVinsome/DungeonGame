@@ -2,6 +2,7 @@
 var Dungeon = function () {
     var roomMap = new Map();
     var globalChat = [];
+    var personMap = new Map();
     const addRoomVertex = function (roomNumber, newRoom) {
         roomMap.set(roomNumber, newRoom);
     }
@@ -19,9 +20,13 @@ var Dungeon = function () {
             }
 
         }
+
     }
     const addGlobalChat = function (message) {
         globalChat.push(message);
+    }
+    const putPersonInRoom = function (personName, roomNum) {
+        personMap.set(personName, roomNum);
     }
     return {
         get roomMap() {
@@ -30,7 +35,10 @@ var Dungeon = function () {
         get globalChat() {
             return globalChat;
         },
-        addRoomVertex, addRoomEdge, addGlobalChat
+        get personMap() {
+            return personMap;
+        },
+        addRoomVertex, addRoomEdge, addGlobalChat, putPersonInRoom
     };
 };
 var Room = function (roomNum) {
