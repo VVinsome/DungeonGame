@@ -11,8 +11,7 @@ standard_input.on('data', function (data){
     else{
         /* get person to either create dungeon or select pre created dungeon
         then parse their inputs to affect dungeon data, aka 
-        say, yell, message and walk. possibly using another object. 
-        if say say <> then do say function
+        say, yell, message and walk. possibly using another object
         */
     }
 })

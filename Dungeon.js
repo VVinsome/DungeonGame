@@ -19,26 +19,28 @@ function Dungeon(){
 
         }
     }
-}
-function Room(){
-    this.people = new Map();
-    this.message = [];
-    this.outgoingRoom = [null,null,null,null,null,null];
-    this.addOutgoingRoom = function(newRoom, direction){
-        this.outgoingRoom[direction] = newRoom;
-    }
-    this.addPeople = function(person){
-        this.people.set(person.getName(),person);
-    }
-    this.removePeople = function(person){
-        this.people.delete(person.getName());
-    }
+};
+var Room = function (){
+    var peopleInRoom = new Map();
+    var message = [];
+    var outgoingRoom = [null,null,null,null,null,null];
+    const addOutgoingRoom = function(newRoom, direction){
+        outgoingRoom[direction] = newRoom;
+    };
+    const addPeople = function(person){
+        peopleInRoom.set(person.getName(),person);
+    };
+    const removePeople = function(person){
+        peopleInRoom.delete(person.getName());
+    };
+    return {peopleInRoom,message,addOutgoingRoom,addPeople,removePeople};
     
-}
-function People(username){
-    this.inbox = [];
-    this.name = username;
-    this.getName = function(){
-        return this.name;
-    }
-}
+};
+var People = function (username){
+    var inbox = [];
+    var name = username;
+    const getName = function(){
+        return name;
+    };
+    return {inbox,name,getName};
+};
