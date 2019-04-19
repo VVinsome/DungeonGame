@@ -106,8 +106,10 @@ function dungeonTest() {
     console.log("dungeon error: room2 in dungeon: " + dungeon1.roomMap.get(2).outgoingRoom[1]);
 }
 
+
 testPerson();
 testPersonInbox();
 testRoomNumber();
 testRoomPeople();
 dungeonTest();
+console.log("done");
