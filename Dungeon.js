@@ -1,3 +1,4 @@
+//add room as constructor instead of calling new. 
 function Dungeon(){
     this.roomMap = new Map();
     this.addVRoom() = function(roomNumber){
