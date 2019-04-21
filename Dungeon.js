@@ -1,7 +1,6 @@
 //add room as constructor instead of calling new. 
 var Dungeon = function () {
     var roomMap = new Map();
-    var globalChat = [];
     var personMap = new Map();
     const addRoomVertex = function (roomNumber, newRoom) {
         roomMap.set(roomNumber, newRoom);
@@ -22,9 +21,6 @@ var Dungeon = function () {
         }
 
     }
-    const addGlobalChat = function (message) {
-        globalChat.push(message);
-    }
     const putPersonInRoom = function (personName, roomNum) {
         personMap.set(personName, roomNum);
     }
@@ -32,19 +28,15 @@ var Dungeon = function () {
         get roomMap() {
             return roomMap;
         },
-        get globalChat() {
-            return globalChat;
-        },
         get personMap() {
             return personMap;
         },
-        addRoomVertex, addRoomEdge, addGlobalChat, putPersonInRoom
+        addRoomVertex, addRoomEdge, putPersonInRoom
     };
 };
 var Room = function (roomNum) {
     var roomNumber = roomNum;
     var peopleInRoom = new Map();
-    var roomChat = [];
     var outgoingRoom = [null, null, null, null, null, null];
     const addOutgoingRoom = function (newRoom, direction) {
         outgoingRoom[direction] = newRoom;
@@ -55,9 +47,6 @@ var Room = function (roomNum) {
     const removePeople = function (person) {
         peopleInRoom.delete(person.name);
     };
-    const addChat = function (message) {
-        roomChat.push(message);
-    };
     return {
         get roomNumber() {
             return roomNumber;
@@ -65,33 +54,36 @@ var Room = function (roomNum) {
         get peopleInRoom() {
             return peopleInRoom;
         },
-        get roomChat() {
-            return roomChat;
-        },
         get outgoingRoom() {
             return outgoingRoom;
         },
-        addOutgoingRoom, addPeople, removePeople, addChat
+        addOutgoingRoom, addPeople, removePeople
     };
 
 };
 var People = function (username) {
-    var inbox = [];
     var name = username;
-    const addMail = function (mail) {
-        inbox.push(mail);
-    }
+    var chat = Chat();
     return {
         get name() {
             return name;
         },
-        get inbox() {
-            return inbox;
-        },
-        addMail
-
     };
 };
+var Chat = function () {
+    var inbox = [];
+    const addInbox = function (message) {
+        inbox.push(mail);
+    }
+    const printInbox = function (numMessage) {
+        for (let i = inbox.length; i >= inbox.length - numMessage; i--) {
+            console.log(inbox[i]);
+        }
+    }
+    return {
+        addInbox, printInbox
+    };
+}
 module.exports.Dungeon = Dungeon;
 module.exports.Room = Room;
 module.exports.People = People;
