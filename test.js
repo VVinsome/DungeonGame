@@ -2,6 +2,7 @@ var wholeDungeon = require("./Dungeon.js");
 var dungeon = wholeDungeon.Dungeon;
 var room = wholeDungeon.Room;
 var people = wholeDungeon.People;
+var chat = wholeDungeon.Chat;
 // Testing constructor name
 function testPerson() {
     var person1 = people("person1");
@@ -24,16 +25,16 @@ function testPerson() {
 function testPersonInbox() {
     var person1 = people("person1");
     var person2 = people("person2");
-    person1.addMail("person1Mail");
-    person2.addMail("person2Mail");
-    if (person1.inbox[0] == "person1Mail") {
-        console.log("person1 inbox: " + person1.inbox[0]);
+    person1.addInbox("person1Mail");
+    person2.addInbox("person2Mail");
+    if (person1.getIndexedMessage(0) == "person1Mail") {
+        console.log("person1 inbox: correct ");
     }
-    if (person2.inbox[0] == "person2Mail") {
-        console.log("person2 inbox: " + person2.inbox[0]);
+    if (person2.getIndexedMessage(0) == "person2Mail") {
+        console.log("person2 inbox: correct");
         return;
     }
-    console.log("person inbox fail, Person1: " + person1.inbox[0] + "person2: " + person2.inbox[0]);
+    console.log("person inbox fail, Person1: " + person1.getIndexedMessage(0) + "person2: " + person2.getIndexedMessage(0));
 }
 
 function testRoomNumber() {
@@ -71,12 +72,12 @@ function testRoomPeople() {
             console.log(`${elem[0].name}: ${elem[1]}`);
         }
     }
-    room1.addChat("hi");
-    if (room1.roomChat[0] == "hi") {
+    room1.addInbox("hi");
+    if (room1.getIndexedMessage(0) == "hi") {
         console.log("adding to chat works");
     }
     else {
-        console.log("chat doesnt work: " + room1.roomChat);
+        console.log("chat doesnt work: " + room1.getIndexedMessage(0));
     }
     var room2 = room(2);
     room1.addOutgoingRoom(room2, 0);
@@ -95,6 +96,10 @@ function dungeonTest() {
     dungeon1.addRoomVertex(1, room1);
     dungeon1.addRoomVertex(2, room2);
     dungeon1.addRoomEdge(1, 2, 0);
+    dungeon1.addInbox("hello");
+    if (dungeon1.getIndexedMessage(0) == "hello") {
+        console.log("dungeon has correct chat");
+    }
     if (dungeon1.roomMap.get(1).outgoingRoom[0] == 2) {
         console.log("room1 has edge to room2 in correct direction");
     }
