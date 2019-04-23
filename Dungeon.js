@@ -24,7 +24,10 @@ var Dungeon = function () {
 
     }
     const putPersonInRoom = function (personName, roomNum) {
-        personMap.set(personName, roomNum);
+        if (currentPlayers.has(personName) && roomMap.has(roomNum)) {
+            roomMap.get(roomNum).addPeople(currentPlayers.get(personName));
+            personMap.set(personName, roomNum);
+        }
     }
     const addPlayer = function (username, personObj) {
         currentPlayers.set(username, personObj);
@@ -58,8 +61,8 @@ var Room = function (roomNum) {
     };
     const printPeopleInRoom = function () {
         console.log("The people in this room are: ")
-        for (let i = 0; i < peopleInRoom.length; i++) {
-            console.log(peopleInRoom[i].name);
+        for (const k of peopleInRoom.keys()) {
+            console.log(k + '\n');
         }
     }
     return Object.assign({}, chat, {
@@ -96,12 +99,12 @@ var Chat = function () {
     const printInbox = function () {
         console.log("The current chat messages are: ")
         for (let i = 0; i < inbox.length; i++) {
-            console.log(inbox[i]);
+            console.log(inbox[i] + '\n');
         }
     }
     const printInboxMessage = function (numMessage) {
         for (let i = inbox.length; i >= inbox.length - numMessage; i--) {
-            console.log(inbox[i]);
+            console.log(inbox[i] + '\n');
         }
     }
     const getIndexedMessage = function (index) {

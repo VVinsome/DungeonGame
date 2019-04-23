@@ -3,6 +3,7 @@ var dungeon = wholeDungeon.Dungeon;
 var room = wholeDungeon.Room;
 var people = wholeDungeon.People;
 var chat = wholeDungeon.Chat;
+const command = wholeDungeon.Command;
 // Testing constructor name
 function testPerson() {
     var person1 = people("person1");
@@ -47,11 +48,6 @@ function testRoomNumber() {
         console.log("room number incorrect room1: " + room1.roomNumber + " room2: " + room2.roomNumber);
     }
 }
-/*
-function logMapElements(value, key, map) {
-    console.log(`map.get('${key}') = ${value}`);
-}
-*/
 function testRoomPeople() {
     var person1 = people("person1");
     var room1 = room(1);
@@ -110,6 +106,7 @@ function dungeonTest() {
     console.log("dungeon error: room1 in dungeon: " + dungeon1.roomMap.get(1).outgoingRoom[0]);
     console.log("dungeon error: room2 in dungeon: " + dungeon1.roomMap.get(2).outgoingRoom[1]);
 }
+
 
 
 testPerson();
