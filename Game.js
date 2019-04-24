@@ -2,13 +2,9 @@ const wholeDungeon = require("./Dungeon.js");
 var dungeon = wholeDungeon.Dungeon;
 var room = wholeDungeon.Room;
 var people = wholeDungeon.People;
-var chat = wholeDungeon.Chat;
 const command = wholeDungeon.Command;
-
-const readline = require("readline").createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+var readline = require('readline');
+var rl = readline.createInterface(process.stdin, process.stdout);
 // initialize game
 var dungeon1 = dungeon();
 var currentUser = "";
@@ -38,21 +34,54 @@ dungeon1.addRoomEdge(2, 3, 3);
 dungeon1.addRoomEdge(6, 7, 3);
 //this is up down edges
 dungeon1.addRoomEdge(6, 7, 4);
-readline.question("What is your name", function (username) {
+var first = 1;
+rl.setPrompt('What is your name? \n');
+rl.prompt();
+rl.on('line', function (line) {
+    if (line === "exit") {
+        rl.close();
+    }
+    if (first) {
+        var username = line;
+        currentUser = username;
+        var nPerson = people(username);
+        dungeon1.addPlayer(username, nPerson);
+        dungeon1.putPersonInRoom(username, 1);
+        console.log("you were placed in room 1");
+        first = 0;
+        rl.setPrompt("Please input your command \n");
+    }
+    else {
+        var input = line.toLowerCase();
+        var action = line;
+        if (input.indexOf(" ") != -1) {
+            action = input.substr(0, input.indexOf(" "));
+        }
+        input = input.substr(input.indexOf(" ") + 1);
+        command[action](input, currentUser, dungeon1);
+    }
+    rl.prompt();
+}).on('close', function () {
+    process.exit(0);
+});
+/*
+readline.question("What is your name? \n", function (username) {
     currentUser = username;
     var nPerson = people(username);
     dungeon1.addPlayer(username, nPerson);
     dungeon1.putPersonInRoom(username, 1);
     console.log("you were placed in room 1");
+    readline.question("Please input your command \n", function (userInput) {
+        var input = userInput.toLowerCase();
+        var action = input.substr(0, input.indexOf(" "));
+        console.log(action);
+        input = input.substr(input.indexOf(" ") + 1);
+        command[action](input, currentUser, dungeon1);
+    });
 
-})
-readline.question("Please input your command", function (userInput) {
-    var input = userInput.toLowerCase();
-    var action = input.substr(0, input.indexOf(" "));
-    input = input.substr(input.indexOf(" ") + 1);
-    command[action](input, currentUser, dungeon1);
-}
-        /* get person to either create dungeon or select pre created dungeon
+});
+*/
+/* get person to either create dungeon or select pre created dungeon
 then parse their inputs to affect dungeon data, aka
 say, yell, message and walk. possibly using another object
-*/)
+*/

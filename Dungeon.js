@@ -1,7 +1,10 @@
 //add room as constructor instead of calling new. 
 var Dungeon = function () {
+    //map of all rooms in dungeon, room num corresponds to room
     var roomMap = new Map();
+    //map with people and their current rooms
     var personMap = new Map();
+    //all players in game
     var currentPlayers = new Map();
     var chat = Chat();
     const addRoomVertex = function (roomNumber, newRoom) {
@@ -118,10 +121,10 @@ var Chat = function () {
 }
 const Command = (function () {
     const say = function (input, currentUser, currentDungeon) {
-        var dialog = input.substr(0, input.indexOf(" "));
-        var roomNum = currentDungeon.get(currentUser);
-        currentDungeon.get(roomNum).addInbox(dialog);
-        console.log("you said: " + dialog);
+        var dialog = input;
+        var roomNum = currentDungeon.personMap.get(currentUser);
+        currentDungeon.roomMap.get(roomNum).addInbox(dialog);
+        console.log(currentUser + " said: " + dialog);
     }
     const tell = function (input, currentUser, currentDungeon) {
         var name = input.substr(0, input.indexOf(" "));
@@ -130,16 +133,16 @@ const Command = (function () {
         if (currentDungeon.currentPlayers.has(name)) {
             currentDungeon.currentPlayers.get(name).addInbox(message);
         }
-        console.log("you told: " + name + ": " + dialog);
+        console.log(currentUser + " told: " + name + ": " + dialog);
 
     }
     const yell = function (input, currentUser, currentDungeon) {
-        var dialog = input.substr(0, input.indexOf(" "));
+        var dialog = input;
         currentDungeon.addInbox(dialog);
-        console.log("you yelled: " + dialog);
+        console.log(currentUser + " yelled: " + dialog);
 
     }
-    const moveDirectionHelper = function (input, currentUser, currentDungeon, direction) {
+    const moveDirection = function (input, currentUser, currentDungeon, direction) {
         var currentPlayer = currentDungeon.currentPlayers.get(currentUser);
         var roomNum = currentDungeon.personMap.get(currentUser);
         var currentRoom = currentDungeon.roomMap.get(roomNum);
@@ -176,7 +179,7 @@ const Command = (function () {
     }
     return { say, tell, yell, north, south, east, west, up, down };
 
-})
+})();
 module.exports.Dungeon = Dungeon;
 module.exports.Room = Room;
 module.exports.People = People;
