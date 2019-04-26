@@ -1,6 +1,8 @@
+Open file for correct formatting of README
+
 To first initialize this game, you must have Node.js installed. 
 Then, while in Game.js directory, run game by typing " node Game.js " in terminal.
-Open file for correct formatting.
+
 
 You are in a dungeon with this layout.
 / = up/down   | = north/south -- = east/west
