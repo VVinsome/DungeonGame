@@ -1,0 +1,29 @@
+Answering Race Issues:
+If the races of these people give them special attributes and there are many races, some of the races
+attributes might conflict with each other. Like one race makes the room weather rainy, while another makes
+it sunny.
+
+One solution could be to do race attribute handling as a person enters a room, so that the latest person who
+entered is the one whose attributes are in effect.
+
+There could also be a weight system based on some stats to determine who has precedence in their
+attributes.
+
+Answering World Scaling Issues:
+There could be so many people that there are not enough space inside the rooms to fit them all. I used 
+a javascript Map to hold several features of the dungeon, like a room map and people map. A javascript map
+can only hold 2^24 elements, so space might be an issue as the world scales. 
+A possible solution is to add more maps and modify the code to check both maps. 
+
+There could also be problems with multiple monsters affecting the stats of a player.
+For example, a monster could debuff a player's stats while a player is in the middle of an attack, which
+leaves the question of whether to debuff his stats for the attack or after the attack.
+
+This can be solved by sticking to a precedence order for the game. You can create a precedence for possible actions
+that take place and those will just be the rules of the game.
+
+There could also be an issue with there not being enough things in the room for each player. 
+For example, if there are items in the room that can be picked up, then as player count increases and they
+pick up items, the number of items available to pick up decrease, possibly to the point of having no more items.
+
+A possible solution is to have items respawn or regenerate at a rate proportional to the player count.
