@@ -30,3 +30,4 @@ You are in a dungeon with this layout.
  up -> move up a level if possible
  down -> move down a level if possible
  globalChat -> show the global chat
+ exit -> exit the game
