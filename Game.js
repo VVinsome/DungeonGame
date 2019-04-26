@@ -22,6 +22,7 @@ for (let i = 1; i <= 7; i++) {
 }
 //0-1 is north south. 2-3 is east west. 4-5 is up down
 /* undirected (both directions) graph looks like this 
+/ = up/down   | = north/south -- = east/west
                     (9)
                     |                       
                     (8)--(10)--(12)         Level 3
