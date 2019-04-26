@@ -10,7 +10,7 @@ var Dungeon = function () {
     const addRoomVertex = function (roomNumber, newRoom) {
         roomMap.set(roomNumber, newRoom);
     }
-    /*takes two rooms u, and v and creates edge between them at contrasting
+    /*takes two room numbers u, and v and creates edge between them at contrasting
     directions. ie North-South East-West Up-Down
     */
     const addRoomEdge = function (u, v, direction) {
@@ -65,7 +65,7 @@ var Room = function (roomNum) {
     const printPeopleInRoom = function () {
         console.log("The people in this room are: ")
         for (const k of peopleInRoom.keys()) {
-            console.log(k + '\n');
+            console.log(k);
         }
     }
     return Object.assign({}, chat, {
@@ -102,12 +102,12 @@ var Chat = function () {
     const printInbox = function () {
         console.log("The current chat messages are: ")
         for (let i = 0; i < inbox.length; i++) {
-            console.log(inbox[i] + '\n');
+            console.log(inbox[i]);
         }
     }
     const printInboxMessage = function (numMessage) {
         for (let i = inbox.length; i >= inbox.length - numMessage; i--) {
-            console.log(inbox[i] + '\n');
+            console.log(inbox[i]);
         }
     }
     const getIndexedMessage = function (index) {
@@ -123,36 +123,49 @@ const Command = (function () {
     const say = function (input, currentUser, currentDungeon) {
         var dialog = input;
         var roomNum = currentDungeon.personMap.get(currentUser);
-        currentDungeon.roomMap.get(roomNum).addInbox(dialog);
-        console.log(currentUser + " said: " + dialog);
+        if (dialog != "say") {
+            currentDungeon.roomMap.get(roomNum).addInbox(dialog);
+            console.log(currentUser + " said: " + dialog);
+        }
     }
     const tell = function (input, currentUser, currentDungeon) {
         var name = input.substr(0, input.indexOf(" "));
-        var dialog = name.substr(input.indexOf(" ") + 1);
+        var dialog = input.substr(input.indexOf(" ") + 1);
         var message = dialog + " from " + currentUser;
-        if (currentDungeon.currentPlayers.has(name)) {
-            currentDungeon.currentPlayers.get(name).addInbox(message);
+        if (dialog != "tell") {
+            if (currentDungeon.currentPlayers.has(name)) {
+                currentDungeon.currentPlayers.get(name).addInbox(message);
+                console.log(currentUser + " told " + name + ": " + dialog);
+            }
         }
-        console.log(currentUser + " told: " + name + ": " + dialog);
 
     }
     const yell = function (input, currentUser, currentDungeon) {
         var dialog = input;
-        currentDungeon.addInbox(dialog);
-        console.log(currentUser + " yelled: " + dialog);
-
+        if (dialog != "yell") {
+            currentDungeon.addInbox(dialog);
+            console.log(currentUser + " yelled: " + dialog);
+        }
     }
     const moveDirection = function (input, currentUser, currentDungeon, direction) {
         var currentPlayer = currentDungeon.currentPlayers.get(currentUser);
         var roomNum = currentDungeon.personMap.get(currentUser);
         var currentRoom = currentDungeon.roomMap.get(roomNum);
+        var directionList = ["north", "south", "east", "west", "up", "down"];
         if (currentRoom.outgoingRoom[direction] != null) {
-            var movedRoom = currentRoom.outgoingRoom[direction];
+            var movedRoomNum = currentRoom.outgoingRoom[direction];
+            var movedRoom = currentDungeon.roomMap.get(movedRoomNum);
             currentRoom.removePeople(currentUser);
             movedRoom.addPeople(currentPlayer);
+            currentDungeon.putPersonInRoom(currentUser, movedRoomNum);
             console.log("you have moved to room: " + movedRoom.roomNumber);
-            movedRoom.printPeopleInRoom;
-            movedRoom.printInbox;
+            console.log("These are available outgoing rooms");
+            for (let i = 0; i < movedRoom.outgoingRoom.length; i++) {
+                console.log(directionList[i] + ": " + movedRoom.outgoingRoom[i]);
+            }
+            console.log("should print now");
+            movedRoom.printPeopleInRoom();
+            movedRoom.printInbox();
         }
     }
     const north = function (input, currentUser, currentDungeon) {
@@ -177,7 +190,10 @@ const Command = (function () {
         moveDirection(input, currentUser, currentDungeon, 5);
 
     }
-    return { say, tell, yell, north, south, east, west, up, down };
+    const globalChat = function (input, currentUser, currentDungeon) {
+        currentDungeon.printInbox();
+    }
+    return { say, tell, yell, north, south, east, west, up, down, globalChat };
 
 })();
 module.exports.Dungeon = Dungeon;
